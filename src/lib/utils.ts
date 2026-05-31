@@ -23,9 +23,12 @@ export function getImageProxyUrl(): string | null {
 
   // 如果未设置，则使用全局对象
   const serverImageProxy = (window as any).RUNTIME_CONFIG?.IMAGE_PROXY;
-  return serverImageProxy && serverImageProxy.trim()
-    ? serverImageProxy.trim()
-    : null;
+  if (serverImageProxy && serverImageProxy.trim()) {
+    return serverImageProxy.trim();
+  }
+
+  // 默认使用内置图片代理，解决豆瓣等来源的防盗链问题
+  return '/api/image-proxy?url=';
 }
 
 /**
